@@ -1,0 +1,86 @@
+Here's the completed code for Women's Clothing Reviews Prediction using Multinomial Naive Bayes:
+
+```
+# **Women's Clothing Reviews Prediction using Multinomial Naive Bayes**
+-------------
+
+## **Objective**
+Predicting women's clothing reviews using Multinomial Naive Bayes.
+
+## **Data Source**
+Women's Clothing Reviews dataset from Kaggle.
+
+## **Import Library**
+```python
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, classification_report
+```
+
+*Import Data*
+```
+df = pd.read_csv('women_clothing_reviews.csv')
+```
+
+*Describe Data*
+```
+print(df.head())
+print(df.info())
+print(df.describe())
+```
+
+*Data Visualization*
+```
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10,6))
+plt.bar(df['category'].value_counts().index, df['category'].value_counts().values)
+plt.xlabel('Category')
+plt.ylabel('Count')
+plt.title('Category Distribution')
+plt.show()
+```
+
+*Data Preprocessing*
+```
+vectorizer = CountVectorizer(stop_words='english')
+X = vectorizer.fit_transform(df['review'])
+y = df['category']
+```
+
+*Define Target Variable (y) and Feature Variables (X)*
+```
+X = X.toarray()
+```
+
+*Train Test Split*
+```
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+```
+
+*Modeling*
+```
+mnb = MultinomialNB()
+mnb.fit(X_train, y_train)
+```
+
+*Model Evaluation*
+```
+y_pred = mnb.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+```
+
+*Prediction*
+```
+review = ["I love this dress! The material is so soft and comfortable."]
+review_vector = vectorizer.transform(review)
+prediction = mnb.predict(review_vector)
+print("Prediction:", prediction)
+```
+
+*Explaination*
+Multinomial Naive Bayes is suitable for text classification tasks. It assumes independence between features and calculates probabilities based on feature frequencies.
